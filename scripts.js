@@ -1,5 +1,21 @@
 // How many total commits were made in all of Steve's events?
 
+let commitCount = 0;
+for (let i = 0; i < githubData.length; i++) {
+
+  let eventCommits = githubData[i].payload.commits;
+
+  // Check if event has commits and increase commit count if so
+  if(eventCommits) {
+    commitCount += eventCommits.length;
+  } else {
+    // No commits in this event
+  }
+
+}
+
+console.log("Total Commits:", commitCount);
+
 // How many of each event type are there? (PullRequestEvent, PushEvent, etc)
 
 // List all Github users who submitted a pull request that was approved by Steve.
