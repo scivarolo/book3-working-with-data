@@ -164,4 +164,25 @@ console.log(`Event ${mostCommitsId} has the most commits with a count of ${mostC
 
 // Which programming langugages were affected by Steve's events?
 
+let languages = [];
+
+for (let i = 0; i < githubData.length; i++) {
+
+  // Pull requests have language attached to them
+  let pullRequest = githubData[i].payload.pull_request;
+  let language;
+
+  // If its a pull request, find the language and add it to the languages array if its not already there.
+  if (pullRequest) {
+    language = pullRequest.head.repo.language;
+    if(languages.indexOf(language) === -1) {
+      languages.push(language);
+    }
+  }
+}
+
+console.log(`The languages affected by Steve's events are ${languages.join(" and ")}.`);
+
+//-------------------------------------------------------------------------------
+
 // What programming language was the most affected by Steve's events?
