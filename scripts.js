@@ -88,6 +88,55 @@ console.log("Total Commits:", commitCount);
 
 // List all repositories on which Steve had an event, and show how many events were on each one.
 
+// Array to store unique repos, and count them.
+let eventRepos = [];
+
+// For each event, get repository name and create object if not already there.
+for (let i = 0; i < githubData.length; i++) {
+  let event = githubData[i];
+  // Get repo name
+  let repoName = event.repo.name;
+  
+  // For first event, go ahead and add its object to array so array isn't empty.
+  if(eventRepos.length === 0) {
+    let repoObject = {
+      repoName: repoName,
+      count: 0
+    }
+    eventRepos.push(repoObject);
+  }
+  
+  // Look for event object in array
+  let repoObjectIndex = -1;
+  
+  for(let j = 0; j < eventRepos.length; j++) {
+    // Store index if repo is found
+    if (eventRepos[j].repoName === repoName) {
+      repoObjectIndex = j;
+    }
+  }
+  
+  // If event object is in array, increase it's count by 1
+  // If event object is not found, create object with count of 1
+  if (repoObjectIndex >= 0) {
+    eventRepos[repoObjectIndex].count += 1;
+  } else {
+    let repoObject = {
+      repoName: repoName,
+      count: 1
+    }
+    eventRepos.push(repoObject);
+  }
+  
+}
+
+// Log the number of events in each repo.
+eventRepos.forEach((repo) => {
+  console.log(`Repo ${repo.repoName} has ${repo.count} events.`);
+});
+
+//-------------------------------------------------------------------------------
+
 // Which event had the most number of commits?
 
 // Which programming langugages were affected by Steve's events?
