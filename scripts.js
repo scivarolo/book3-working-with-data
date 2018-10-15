@@ -139,6 +139,29 @@ eventRepos.forEach((repo) => {
 
 // Which event had the most number of commits?
 
+// Create variable to store highest count
+let mostCommitsId;
+let mostCommitsCount = 0;
+
+// Loop through events and get number of commits.
+
+for (let i = 0; i < githubData.length; i++) {
+  let eventCommits = githubData[i].payload.commits;
+  let eventId = githubData[i].id;
+
+  // Check if event has more commits than current highest commit. 
+  // If it has more, replace mostCommitsId and mostCommitsCount.
+  // If not, continue to the next one.
+  if(eventCommits && eventCommits.length > mostCommitsCount) {
+    mostCommitsId = eventId;
+    mostCommitsCount = eventCommits.length;
+  }
+}
+
+console.log(`Event ${mostCommitsId} has the most commits with a count of ${mostCommitsCount}.`);
+
+//-------------------------------------------------------------------------------
+
 // Which programming langugages were affected by Steve's events?
 
 // What programming language was the most affected by Steve's events?
