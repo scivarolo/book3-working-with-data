@@ -186,3 +186,38 @@ console.log(`The languages affected by Steve's events are ${languages.join(" and
 //-------------------------------------------------------------------------------
 
 // What programming language was the most affected by Steve's events?
+
+// Take languages array from step above and make into objects so we can count
+let languageCounter = {};
+for (let i = 0; i < languages.length; i++) {
+  languageCounter[languages[i]] = 0;
+}
+
+//Loop through githubData and count language usage.
+for (let i = 0; i < githubData.length; i++) {
+  //Check if event is pull request
+  let isPR = githubData[i].payload.pull_request;
+  let language;
+  if (isPR) {
+    language = isPR.head.repo.language;
+    // Find language in languageCounter and +1
+    languageCounter[language] += 1;
+  }
+}
+
+let mostUsedLang;
+let mostUsedLangCount = 0;
+
+//Loop through values in languageCounter and compare
+for (key in languageCounter) {
+  //If the current value being looped is larger than the mostUsedLangCount, make it the mostUsedLang and mostUsedLangCount
+  if (languageCounter[key] > mostUsedLangCount) {
+    mostUsedLang = key;
+    mostUsedLangCount = languageCounter[key];
+  }
+}
+
+console.log("Language Counter:", languageCounter);
+console.log("Most Used Language:", mostUsedLang);
+
+
