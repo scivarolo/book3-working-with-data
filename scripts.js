@@ -75,8 +75,7 @@ console.log("Total Commits:", commitCount);
 let eventRepos = [];
 
 // For each event, get repository name and create object if not already there.
-for (let i = 0; i < githubData.length; i++) {
-  let event = githubData[i];
+githubData.forEach((event) => {
   // Get repo name
   let repoName = event.repo.name;
   
@@ -111,7 +110,7 @@ for (let i = 0; i < githubData.length; i++) {
     eventRepos.push(repoObject);
   }
   
-}
+});
 
 // Log the number of events in each repo.
 eventRepos.forEach((repo) => {
