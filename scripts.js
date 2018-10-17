@@ -1,54 +1,38 @@
 // How many total commits were made in all of Steve's events?
 
 let commitCount = 0;
-for (let i = 0; i < githubData.length; i++) {
+githubData.forEach((event) => {
 
-  let eventCommits = githubData[i].payload.commits;
-
+  let eventCommits = event.payload.commits;
   // Check if event has commits and increase commit count if so
   if(eventCommits) {
     commitCount += eventCommits.length;
-  } else {
-    // No commits in this event
-  }
-
-}
+  } 
+});
 
 console.log("Total Commits:", commitCount);
 
 // -----------------------------------------------------------------------------
 
-// How many of each event type are there? (PullRequestEvent, PushEvent, etc)
+// 2. How many of each event type are there? (PullRequestEvent, PushEvent, etc)
 
   // Make array to store event types.
-  let eventTypes = [];
+  let allEventTypes = [];
   
-  // Query event type for each object.
-  for (let i = 0; i < githubData.length; i++) {
-    let eventType = githubData[i].type;
+  githubData.forEach((event) => {
+    allEventTypes.push(event.type);
+  });
 
-    // If event type is not in array, add it. If not, move on.
-    if(eventTypes.indexOf(eventType) === -1) {
-      eventTypes.push(eventType);
-    }
-  }
+  //Make object to count each eventtype in array
+  let eventTypesCounter = {};
+  allEventTypes.forEach((eventType) => {
+    //If eventType is already in object, 
+    eventTypesCounter[eventType] = (eventTypesCounter[eventType] || 0) + 1;
+  });
 
-  // Create an object to store the count of each event type.
-  let eventTypesCount = {};
-  for (let i = 0; i < eventTypes.length; i++) {
-    eventTypesCount[eventTypes[i]] = 0;
-  }
-
-  // Loop through events again and increase counter object depending on event type.
-
-  for (let i = 0; i < githubData.length; i++) {
-    let eventType = githubData[i].type;
-    eventTypesCount[eventType] += 1;
-  }
-  
   // Print results to console.
-  for(eventType in eventTypesCount) {
-    console.log(`${eventType} occurred ${eventTypesCount[eventType]} times.`);
+  for(eventType in eventTypesCounter) {
+    console.log(`${eventType} occurred ${eventTypesCounter[eventType]} times.`);
   }
 
 //-------------------------------------------------------------------------------  
@@ -62,8 +46,7 @@ console.log("Total Commits:", commitCount);
   let prUsers = [];
 
   // Loop through events and do something if type is PullRequestEvent
-  for (let i = 0; i < githubData.length; i++) {
-    let event = githubData[i];
+  githubData.forEach((event) => {
     if(event.type === "PullRequestEvent") {
       // Get user that created Pull Request
       let user = event.payload.pull_request.user.login;
@@ -80,7 +63,7 @@ console.log("Total Commits:", commitCount);
         }    
       }
     }
-  }
+  });
 
   console.log(`The following users have submitted Pull Requests approved by Steve: ${prUsers.join(", ")}.`);
 
@@ -92,8 +75,7 @@ console.log("Total Commits:", commitCount);
 let eventRepos = [];
 
 // For each event, get repository name and create object if not already there.
-for (let i = 0; i < githubData.length; i++) {
-  let event = githubData[i];
+githubData.forEach((event) => {
   // Get repo name
   let repoName = event.repo.name;
   
@@ -128,7 +110,7 @@ for (let i = 0; i < githubData.length; i++) {
     eventRepos.push(repoObject);
   }
   
-}
+});
 
 // Log the number of events in each repo.
 eventRepos.forEach((repo) => {
