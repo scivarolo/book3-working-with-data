@@ -46,8 +46,7 @@ console.log("Total Commits:", commitCount);
   let prUsers = [];
 
   // Loop through events and do something if type is PullRequestEvent
-  for (let i = 0; i < githubData.length; i++) {
-    let event = githubData[i];
+  githubData.forEach((event) => {
     if(event.type === "PullRequestEvent") {
       // Get user that created Pull Request
       let user = event.payload.pull_request.user.login;
@@ -64,7 +63,7 @@ console.log("Total Commits:", commitCount);
         }    
       }
     }
-  }
+  });
 
   console.log(`The following users have submitted Pull Requests approved by Steve: ${prUsers.join(", ")}.`);
 
